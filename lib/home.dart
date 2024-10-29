@@ -15,6 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String userName = 'User Name'; // ชื่อผู้ใช้
   String userEmail = 'user@example.com'; // อีเมลผู้ใช้
   String userAddress = 'User Address'; // ที่อยู่ผู้ใช้
+  String userPhone = '123-456-7890'; // หมายเลขโทรศัพท์ผู้ใช้
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: EdgeInsets.zero,
           children: [
             UserAccountsDrawerHeader(
-              accountName: Text(userName, style: TextStyle(color: Colors.black)),
-              accountEmail: Text(userEmail, style: TextStyle(color: Colors.black)),
               decoration: BoxDecoration(color: Colors.grey), // เปลี่ยนสีพื้นหลังของส่วนหัว
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.green,
@@ -38,6 +37,32 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(fontSize: 40.0, color: Colors.white),
                 ),
               ),
+              accountName: Row(
+                children: [
+                  Icon(Icons.person, color: Colors.white), // ไอคอนชื่อผู้ใช้
+                  SizedBox(width: 8.0),
+                  Expanded(
+                    child: Text(userName, style: TextStyle(color: Colors.black)),
+                  ),
+                ],
+              ),
+              accountEmail: Row(
+                children: [
+                  Icon(Icons.email, color: Colors.white), // ไอคอนอีเมล
+                  SizedBox(width: 8.0),
+                  Expanded(
+                    child: Text(userEmail, style: TextStyle(color: Colors.black)),
+                  ),
+                ],
+              ),
+            ),
+            // หมายเลขโทรศัพท์
+            ListTile(
+              leading: Icon(Icons.phone, color: Colors.green), // ไอคอนหมายเลขโทรศัพท์
+              title: Text(userPhone),
+              onTap: () {
+                // สามารถเพิ่มการทำงานเมื่อกดหมายเลขโทรศัพท์ได้
+              },
             ),
             ListTile(
               leading: Icon(Icons.edit),
@@ -51,6 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       name: userName,
                       email: userEmail,
                       address: userAddress,
+                      phone: userPhone, // เพิ่มหมายเลขโทรศัพท์ไปยังหน้าแก้ไข
                     ),
                   ),
                 );
@@ -60,6 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     userName = updatedInfo['name'];
                     userEmail = updatedInfo['email'];
                     userAddress = updatedInfo['address'];
+                    userPhone = updatedInfo['phone']; // อัปเดตหมายเลขโทรศัพท์
                   });
                 }
               },
@@ -92,10 +119,10 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisSpacing: 16.0,
               crossAxisSpacing: 16.0,
               children: [
-                _buildMenuButton(context, 'assets/eat.jpg', Icons.fastfood, 'Menu', MenuScreen()), // เปลี่ยนที่นี่
-                _buildMenuButton(context, 'assets/fruits.jpg', Icons.local_drink, 'Fruity', FruityScreen()), // เปลี่ยนที่นี่
-                _buildMenuButton(context, 'assets/bakery.jpg', Icons.bakery_dining, 'Bakery', BakeryScreen()), // เปลี่ยนที่นี่
-                _buildMenuButton(context, 'assets/bmi.jpg', Icons.monitor_weight, 'BMI', BmiCalculatorScreen()), // เปลี่ยนที่นี่
+                _buildMenuButton(context, 'assets/eat.jpg', Icons.fastfood, 'Menu', MenuScreen()),
+                _buildMenuButton(context, 'assets/fruits.jpg', Icons.local_drink, 'Fruity', FruityScreen()),
+                _buildMenuButton(context, 'assets/bakery.jpg', Icons.bakery_dining, 'Bakery', BakeryScreen()),
+                _buildMenuButton(context, 'assets/bmi.jpg', Icons.monitor_weight, 'BMI', BmiCalculatorScreen()),
               ],
             ),
           ),
@@ -113,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => nextPage), // นำไปยังหน้าที่ระบุ
+                MaterialPageRoute(builder: (context) => nextPage),
               );
             },
             child: Container(
@@ -144,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => nextPage), // นำไปยังหน้าที่ระบุ
+              MaterialPageRoute(builder: (context) => nextPage),
             );
           },
           style: ElevatedButton.styleFrom(
