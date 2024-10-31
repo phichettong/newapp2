@@ -1,11 +1,66 @@
 import 'dart:ui'; // ต้องนำเข้าเพื่อใช้ BackdropFilter
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:newapp/add_page.dart';
 import 'package:newapp/home.dart';
-import 'home.dart'; // นำเข้า HomeScreen
 
 class LoginScreen extends StatelessWidget {
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+
+  Future<void> _login(BuildContext context) async {
+    final String email = emailController.text.trim();
+    final String phone = phoneController.text.trim();
+
+    if (email.isEmpty || phone.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please enter email and phone number'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    try {
+      // ตรวจสอบใน Firestore
+      final QuerySnapshot result = await FirebaseFirestore.instance
+          .collection('users')
+          .where('อีเมล', isEqualTo: email)
+          .where('เบอร์โทร', isEqualTo: phone)
+          .get();
+
+      if (result.docs.isNotEmpty) {
+        // หากพบผู้ใช้
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Login successful!'),
+            backgroundColor: Colors.green,
+          ),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
+      } else {
+        // หากไม่พบผู้ใช้
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Invalid email or phone number'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      // จัดการข้อผิดพลาดการเชื่อมต่อ Firestore
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,16 +97,16 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20.0), // เพิ่มระยะห่างใต้โลโก้
-                  // ฟิลด์กรอกชื่อผู้ใช้
+                  // ฟิลด์กรอกอีเมล
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white, // สีพื้นหลัง
                       borderRadius: BorderRadius.circular(8.0), // มุมโค้ง
                     ),
                     child: TextField(
-                      controller: usernameController,
+                      controller: emailController,
                       decoration: InputDecoration(
-                        labelText: 'Username',
+                        labelText: 'Email',
                         labelStyle: TextStyle(color: Colors.grey), // สีข้อความ
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0), // มุมโค้ง
@@ -63,17 +118,17 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 16.0),
-                  // ฟิลด์กรอกรหัสผ่าน
+                  // ฟิลด์กรอกเบอร์โทร
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white, // สีพื้นหลัง
                       borderRadius: BorderRadius.circular(8.0), // มุมโค้ง
                     ),
                     child: TextField(
-                      controller: passwordController,
-                      obscureText: true,
+                      controller: phoneController,
+                      obscureText: true, // ทำให้แสดงเป็นดอกจัน
                       decoration: InputDecoration(
-                        labelText: 'Password',
+                        labelText: 'Phone Number ',
                         labelStyle: TextStyle(color: Colors.grey), // สีข้อความ
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0), // มุมโค้ง
@@ -94,29 +149,17 @@ class LoginScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8.0), // มุมโค้งของปุ่ม
                       ),
                     ),
-                    onPressed: () {
-                      // ตรวจสอบว่ารหัสผ่านไม่ว่างเปล่า
-                      if (usernameController.text.isEmpty || passwordController.text.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Please enter username and password'),
-                            backgroundColor: Colors.red,
-                          ),
-                        );
-                      } else {
-                        // นำไปสู่หน้า Home
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
-                        );
-                      }
-                    },
+                    onPressed: () => _login(context),
                     child: Text('Login'),
                   ),
                   SizedBox(height: 16.0),
                   TextButton(
                     onPressed: () {
-                      // Implement register logic here
+                      // นำไปสู่หน้า Register
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AddPage()),
+                      );
                     },
                     child: Text(
                       'Register',

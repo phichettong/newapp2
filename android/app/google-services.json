@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "927549910206",
+    "project_id": "phichet-app",
+    "storage_bucket": "phichet-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927549910206:android:afca35c604c3bcee7ec2ef",
+        "android_client_info": {
+          "package_name": "com.newapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQMdQ1DOSITBH_ZHxuyrTTr1VJAMWn5Q0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -6,31 +6,37 @@ class BakeryScreen extends StatelessWidget {
       'name': 'เกรีกโยเกิร์ตชาเขียว ซอยมิลค์พลัส',
       'image': 'assets/b1.jpg',
       'rating': 4.5,
+      'price': 50, // ราคา
     },
     {
       'name': 'ทาร์ตโยเกิร์ตผลไม้รวม ฟรุตตี้เลิฟเวอร์',
       'image': 'assets/b2.jpg',
       'rating': 4.0,
+      'price': 60, // ราคา
     },
     {
       'name': 'กราโนล่าบาร์ ซิกเนเจอร์มิกซ์',
       'image': 'assets/b3.jpg',
       'rating': 5.0,
+      'price': 70, // ราคา
     },
     {
       'name': 'บราวนีฟักทอง โรยถั่วและผลไม้แห้ง',
       'image': 'assets/b4.jpg',
       'rating': 4.8,
+      'price': 55, // ราคา
     },
     {
       'name': 'เค้กวีแกนสามชั้น ครัมเบิ้ลมิกซ์',
       'image': 'assets/b5.jpg',
       'rating': 4.8,
+      'price': 80, // ราคา
     },
     {
       'name': 'คุกกี้ข้าวโอ๊ตทรัฟเฟิล่',
       'image': 'assets/b6.jpg',
       'rating': 4.8,
+      'price': 45, // ราคา
     },
   ];
 
@@ -47,7 +53,7 @@ class BakeryScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            childAspectRatio: 0.6, // ปรับค่าให้เหมาะสม
+            childAspectRatio: 0.5, // ปรับค่าให้เหมาะสม
             crossAxisSpacing: 10.0, // เพิ่มระยะห่าง
             mainAxisSpacing: 10.0,  // ลดระยะห่าง
           ),
@@ -89,7 +95,7 @@ class BakeryScreen extends StatelessWidget {
                   ? Image.asset(
                 item['image'],
                 width: double.infinity,
-                height: 100, // ปรับขนาดให้เล็กลง
+                height: 100,
                 fit: BoxFit.cover,
               )
                   : Container(
@@ -110,6 +116,11 @@ class BakeryScreen extends StatelessWidget {
             item['name'],
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
             textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 4.0),
+          Text(
+            'ราคา: ${item['price']} บาท', // แสดงราคา
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.yellow),
           ),
           SizedBox(height: 4.0),
           Row(

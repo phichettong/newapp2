@@ -12,28 +12,34 @@ class _FruityScreenState extends State<FruityScreen> {
       'name': 'กล้วยปั่น',
       'image': 'assets/f1.jpg',
       'rating': 4.5,
+      'price': 50, // ราคา
     },
     {
       'name': 'กีวี่ปั่น',
       'image': 'assets/f2.jpg',
       'rating': 4.0,
+      'price': 60, // ราคา
     },
     {
       'name': 'แครนเบอร์รี่ปั่น',
       'image': 'assets/f3.jpg',
       'rating': 5.0,
+      'price': 60, // ราคา
     },
     {
       'name': 'แตงโมปั่น',
       'image': 'assets/f4.jpg',
       'rating': 4.8,
+      'price': 40, // ราคา
     },
     {
       'name': 'น้ำทับทิมปั่น',
       'image': 'assets/f5.jpg',
       'rating': 4.8,
+      'price': 55, // ราคา
     },
   ];
+
 
   final TextEditingController _searchController = TextEditingController();
   late List<Map<String, dynamic>> _filteredMenuItems;
@@ -104,11 +110,10 @@ class _FruityScreenState extends State<FruityScreen> {
   Widget _buildMenuItem(Map<String, dynamic> item) {
     return GestureDetector(
       onTap: () {
-        // นำผู้ใช้ไปยังหน้า DataFruityScreen เมื่อคลิกที่เมนู
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DataFruityScreen(item: item), // เปลี่ยนเป็น DataFruityScreen
+            builder: (context) => DataFruityScreen(item: item),
           ),
         );
       },
@@ -151,6 +156,11 @@ class _FruityScreenState extends State<FruityScreen> {
                       SizedBox(width: 8.0),
                       Icon(Icons.motorcycle, size: 16, color: Colors.grey),
                     ],
+                  ),
+                  SizedBox(height: 4.0), // เพิ่มระยะห่าง
+                  Text(
+                    'ราคา: ${item['price']} บาท', // แสดงราคา
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

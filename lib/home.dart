@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       name: userName,
                       email: userEmail,
                       address: userAddress,
-                      phone: userPhone, // เพิ่มหมายเลขโทรศัพท์ไปยังหน้าแก้ไข
+                      phone: userPhone, userId: '', // เพิ่มหมายเลขโทรศัพท์ไปยังหน้าแก้ไข
                     ),
                   ),
                 );

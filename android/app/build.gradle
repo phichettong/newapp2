@@ -18,12 +18,16 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
     }
+    defaultConfig {
+//แกไขในสวน applicationId ใหตรงกับ package_name ในไฟล google-services.json
+        applicationId = "com.newapp"
+    }
+// เพิ่มการสนับสนุนการทํางานรวมกับ Firebase เพิ่มทายไฟล
+    apply plugin: 'com.google.gms.google-services'
+
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.newapp"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        applicationId = "com.newapp" // แก้ไขให้ตรงกับ package_name ใน google-services.json
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -32,8 +36,6 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.debug
         }
     }
@@ -42,3 +44,6 @@ android {
 flutter {
     source = "../.."
 }
+
+// เพิ่มการสนับสนุนการทำงานร่วมกับ Firebase
+apply plugin: 'com.google.gms.google-services'

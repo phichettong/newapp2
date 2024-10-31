@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:newapp/datamenu.dart';
-import 'datamenu.dart'; // นำเข้า DataMenuScreen
 
 class MenuScreen extends StatefulWidget {
   @override
@@ -13,21 +12,25 @@ class _MenuScreenState extends State<MenuScreen> {
       'name': 'ข้าวผัดไข่ ซาบะย่าง และผักสลัด',
       'image': 'assets/menu1.jpg',
       'rating': 4.5,
+      'price': 100, // เพิ่มราคา
     },
     {
       'name': 'ผัดถั่วงอกใส่เต้าหู้',
       'image': 'assets/menu2.jpg',
       'rating': 4.0,
+      'price': 69, // เพิ่มราคา
     },
     {
       'name': 'สลัดอกไก่โรยงา กินคู่กับน้ำสลัดญี่ปุ่น',
       'image': 'assets/menu3.jpg',
       'rating': 5.0,
+      'price': 89, // เพิ่มราคา
     },
     {
       'name': 'อกไก่ลวกกับผักต่างๆ กินคู่กับน้ำจิ้มสุกี้',
       'image': 'assets/menu4.jpg',
       'rating': 4.8,
+      'price': 89, // เพิ่มราคา
     },
   ];
 
@@ -147,6 +150,11 @@ class _MenuScreenState extends State<MenuScreen> {
                       Icon(Icons.motorcycle, size: 16, color: Colors.grey),
                     ],
                   ),
+                  SizedBox(height: 4.0), // ระยะห่าง
+                  Text(
+                    'ราคา: ${item['price']} บาท', // แสดงราคา
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
             ),
@@ -155,4 +163,5 @@ class _MenuScreenState extends State<MenuScreen> {
       ),
     );
   }
-}
+  }
+

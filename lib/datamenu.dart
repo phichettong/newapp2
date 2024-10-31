@@ -10,15 +10,16 @@ class DataMenuScreen extends StatefulWidget {
 }
 
 class _DataMenuScreenState extends State<DataMenuScreen> {
-  // สร้างตัวแปรเพื่อเก็บสถานะของ checkboxes
-  List<bool> _selectedOptions = List.generate(4, (index) => false);
+  // สร้างตัวแปรเพื่อเก็บสถานะของ radio button
+  int? _selectedOption;
+  final TextEditingController _additionalInfoController = TextEditingController();
 
-  // รายชื่อของตัวเลือก
-  List<String> _optionTitles = [
-    'หมู',
-    'ไก่',
-    'กุ้ง',
-    'ปลา',
+  // รายชื่อของตัวเลือกและราคา
+  List<Map<String, dynamic>> _options = [
+    {'title': 'หมู', 'price': 5},
+    {'title': 'ไก่', 'price': 5},
+    {'title': 'กุ้ง', 'price': 10},
+    {'title': 'ปลา', 'price': 10},
   ];
 
   void _confirmOrder() {
@@ -27,7 +28,7 @@ class _DataMenuScreenState extends State<DataMenuScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('ยืนยันการสั่งซื้อ'),
-          content: Text('คุณต้องการสั่งซื้อ ${widget.item['name']} หรือไม่?'),
+          content: Text('คุณต้องการสั่งซื้อ ${widget.item['name']} หรือไม่? ข้อมูลเพิ่มเติม: ${_additionalInfoController.text}'),
           actions: [
             TextButton(
               onPressed: () {
@@ -57,7 +58,7 @@ class _DataMenuScreenState extends State<DataMenuScreen> {
         title: Text(widget.item['name']),
         backgroundColor: Colors.green,
       ),
-      body: Padding(
+      body: SingleChildScrollView( // ใช้ SingleChildScrollView เพื่อให้เลื่อนลงได้
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +82,7 @@ class _DataMenuScreenState extends State<DataMenuScreen> {
             SizedBox(height: 10),
             // รายละเอียดเพิ่มเติม
             Text(
-              "รายละเอียดเพิ่มเติมเกี่ยวกับเมนูนี้ เช่น ส่วนผสมหรือวิธีการทำ...",
+              "รายละเอียดเพิ่มเติมเกี่ยวกับเมนูนี้ สามารถเลือกเปลี่ยนได้",
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 20),
@@ -91,19 +92,33 @@ class _DataMenuScreenState extends State<DataMenuScreen> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             Column(
-              children: List.generate(_optionTitles.length, (index) {
-                return CheckboxListTile(
-                  title: Text(_optionTitles[index]), // แสดงตัวเลือกตามรายชื่อ
-                  value: _selectedOptions[index],
+              children: List.generate(_options.length, (index) {
+                return RadioListTile<int>(
+                  title: Text('${_options[index]['title']} +${_options[index]['price']}'),
+                  value: index,
+                  groupValue: _selectedOption,
                   onChanged: (value) {
                     setState(() {
-                      _selectedOptions[index] = value!;
+                      _selectedOption = value; // อัปเดตสถานะเมื่อมีการเลือก
                     });
                   },
                 );
               }),
             ),
-            Spacer(), // ขยายพื้นที่ให้ปุ่มอยู่ด้านล่าง
+            SizedBox(height: 20),
+            // ฟิลด์กรอกข้อมูลเพิ่มเติม
+            Text(
+              'ข้อมูลเพิ่มเติม:',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            TextField(
+              controller: _additionalInfoController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'กรุณาใส่ข้อมูลเพิ่มเติม',
+              ),
+            ),
+            SizedBox(height: 20), // เพิ่มระยะห่าง
             // ปุ่มสั่งซื้อ
             Center(
               child: ElevatedButton(
